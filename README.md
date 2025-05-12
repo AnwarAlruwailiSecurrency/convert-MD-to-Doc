@@ -17,6 +17,6 @@ chmod +x md_docs.sh
 ### run it
 
 ```sh
-./md_docs.sh <path/to/md/files> <github base url>
+./md_docs.sh <path/to/md/files>
 ```
 
