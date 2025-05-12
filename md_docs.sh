@@ -12,13 +12,13 @@ fi
 # first argument is the input directory
 INPUT_DIR="$1"
 # second argument is the github base url for each file
-GITHUB_URL="$2"
+# GITHUB_URL="$2"
 
 
 
 
-if [ -z "$INPUT_DIR" ] || [ -z "$GITHUB_URL"]; then
-    echo "Usage: $0 <input_directory> <github_base_url>"
+if [ -z "$INPUT_DIR" ]; then
+    echo "Usage: $0 <input_directory>"
     exit 1
 fi
 
@@ -34,7 +34,10 @@ for file in *.md; do
 
     temp_file="temp_$output_file.md"
 
-    sed "s|../../|$GITHUB_URL/|g" "$file" > "$temp_file"
+    # sed "s|../../|$GITHUB_URL/|g" "$file" > "$temp_file" # replace  paht to the file in the repo
+    
+    sed -E 's/\[([^]]+)\]\(\.\.\/\.\.\/[^\)]+\)/\1/g' "$file" > "$temp_file" # remove the link to the file in the repo
+
     # Convert the markdown file to docx using pandoc
     pandoc "$temp_file" -s -o  "word_docs/$output_file.docx"
 
