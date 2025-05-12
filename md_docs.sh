@@ -29,13 +29,17 @@ for file in *.md; do
     # Check if there are no markdown files
     echo "Processing $file..."
   
-    output_file="${file%.md}.docx"
-    # temp=file="${file%.md}_temp.md"
+    # output_file="${file%.md}.docx"
+    output_file=$(basename "$file" .md)
 
-    # sed "s|../../contracts/\(.*)|$GITHUB_URL/\1|g" "$file" > "$temp"
+    temp_file="temp_$output_file.md"
+
+    sed "s|../../|$GITHUB_URL/|g" "$file" > "$temp_file"
     # Convert the markdown file to docx using pandoc
-    pandoc "$file" -s -o  "word_docs/$output_file"
-    
+    pandoc "$temp_file" -s -o  "word_docs/$output_file.docx"
+
+    rm "$temp_file"
+
     echo "Converted $file to word_docs/$output_file"
     
 done
